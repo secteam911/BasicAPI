@@ -6,8 +6,6 @@ RUN python3 -m venv $VIRTUAL_ENV
 
 RUN python3 -m pip install --upgrade pip
 
-WORKDIR /BasicAPI
-
 COPY . . 
 
 RUN pip install -r related.txt

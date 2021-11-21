@@ -1,15 +1,23 @@
 pipeline {
-    agent { docker { image 'python:3.8.5' } }
+    agent none
     stages {
-        stage('build') {
-            steps {
-                sh 'pip3 install -r related.txt'
+        stage('Build') {
+            agent {
+                docker {
+                    image 'python:3-alpine'
+                }
             }
-        }
-        stage('test') {
             steps {
-                sh 'python3 app.py initdb'
-		sh 'python3 app.py runserver'
+                withEnv(["HOME=${env.VIRTUAL_VENV}"]) {
+                    sh 'pip install -r related.txt'
+                    sh 'python app.py initdb'
+                    sh 'python app.py runserver'
+                }
+            }
+            post {
+                always {
+                    junit 'output.xml'
+                }
             }
         }
     }
