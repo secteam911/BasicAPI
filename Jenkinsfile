@@ -11,7 +11,6 @@ pipeline {
                 withEnv(["HOME=${env.VIRTUAL_VENV}"]) {
                     sh 'pip install -r related.txt'
                     sh 'python app.py initdb'
-                    sh 'python app.py runserver'
                 }
             }
             post {
